@@ -7,7 +7,7 @@ async function main() {
 
   // Create an admin user
   const adminPassword = await bcrypt.hash("admin123", 10);
-  const admin = await prisma.user.upsert({
+  const admin = await prisma.User.upsert({
     where: { email: "admin@veggibulk.com" },
     update: {},
     create: {
@@ -34,11 +34,11 @@ async function main() {
   ];
 
   for (const product of products) {
-    await prisma.product.upsert({
+    await prisma.Product.upsert({
       where: {
         id:
           (
-            await prisma.product.findFirst({ where: { name: product.name } })
+            await prisma.Product.findFirst({ where: { name: product.name } })
           )?.id || 0,
       },
       update: product,
