@@ -22,51 +22,17 @@ function executeCommand(command) {
 
 async function build() {
   try {
-    // Generate Prisma client
-    await executeCommand("npx prisma generate");
+    console.log("Setting environment variables for Prisma...");
+    // Force Prisma to use the specified binary target
+    process.env.PRISMA_SCHEMA_ENGINE_BINARY =
+      "schema-engine-debian-openssl-3.0.x";
+    process.env.PRISMA_QUERY_ENGINE_BINARY =
+      "query-engine-debian-openssl-3.0.x";
+    process.env.PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING = "1";
 
-    // For Render deployment - explicitly download Debian OpenSSL binary if needed
-    if (process.env.NODE_ENV === "production") {
-      console.log(
-        "Running in production environment, ensuring correct engine binaries..."
-      );
-
-      // Check if the target directory exists, if not create it
-      const engineDir = path.join(__dirname, "generated", "prisma");
-      if (!fs.existsSync(engineDir)) {
-        fs.mkdirSync(engineDir, { recursive: true });
-      }
-
-      // Download the specific engine binary for debian-openssl-3.0.x
-      await executeCommand(
-        "npx prisma-engines download --binary-platform debian-openssl-3.0.x"
-      );
-
-      // Get the downloaded engine file path
-      const engineDownloadDir = path.join(
-        __dirname,
-        "node_modules",
-        ".prisma",
-        "client"
-      );
-      const engineFiles = fs.readdirSync(engineDownloadDir);
-
-      // Find the debian engine file
-      const debianEngine = engineFiles.find((file) =>
-        file.includes("debian-openssl-3.0.x")
-      );
-
-      if (debianEngine) {
-        // Copy it to the generated directory
-        const sourcePath = path.join(engineDownloadDir, debianEngine);
-        const destPath = path.join(engineDir, debianEngine);
-
-        fs.copyFileSync(sourcePath, destPath);
-        console.log(`Copied ${debianEngine} to ${engineDir}`);
-      } else {
-        console.error("Could not find debian engine file");
-      }
-    }
+    // Generate Prisma client with specific binary targets
+    console.log("Generating Prisma client with specific binary targets...");
+    await executeCommand("npx prisma generate --schema=./prisma/schema.prisma");
 
     console.log("Build completed successfully");
   } catch (error) {
