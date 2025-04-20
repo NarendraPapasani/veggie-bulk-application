@@ -19,7 +19,7 @@ async function testConnection() {
 
     // Test querying products table to make sure it exists
     try {
-      const productCount = await prisma.product.count();
+      const productCount = await prisma.Product.count();
       console.log(`The products table exists with ${productCount} records`);
     } catch (tableErr) {
       console.error("Error accessing products table:", tableErr);
