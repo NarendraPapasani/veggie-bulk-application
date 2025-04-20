@@ -23,7 +23,7 @@ const OrderStatus = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/orders/${id}`
+        `https://veggie-bulk-application.onrender.com/api/orders/${id}`
       );
       setOrder(response.data);
     } catch (err) {

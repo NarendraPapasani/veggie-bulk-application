@@ -22,7 +22,9 @@ const OrderForm = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/products");
+        const response = await axios.get(
+          "https://veggie-bulk-application.onrender.com/api/products"
+        );
         setProducts(response.data);
 
         const params = new URLSearchParams(location.search);
@@ -73,7 +75,7 @@ const OrderForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/orders/add",
+        "https://veggie-bulk-application.onrender.com/api/orders/add",
         orderData
       );
       toast.success("Order placed successfully!");

@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
       // For admin users, we don't need to call the backend
       if (!user?.isAdmin) {
         await axios.post(
-          "http://localhost:3000/api/auth/logout",
+          "https://veggie-bulk-application.onrender.com/api/auth/logout",
           {},
           {
             withCredentials: true,

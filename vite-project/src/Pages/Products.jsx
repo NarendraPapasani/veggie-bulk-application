@@ -17,7 +17,9 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/products");
+        const response = await axios.get(
+          "https://veggie-bulk-application.onrender.com/api/products"
+        );
         setProducts(response.data);
         setLoading(false);
       } catch (err) {

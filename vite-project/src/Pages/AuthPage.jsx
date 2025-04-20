@@ -70,7 +70,7 @@ const AuthPage = () => {
 
       // Regular user login via API
       const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
+        "https://veggie-bulk-application.onrender.com/api/auth/login",
         data,
         { withCredentials: true }
       );
@@ -101,7 +101,7 @@ const AuthPage = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:3000/api/auth/signup",
+        "https://veggie-bulk-application.onrender.com/api/auth/signup",
         data
       );
       toast.success("Signup successful! Please log in.");
