@@ -165,6 +165,10 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -182,16 +186,17 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://postgres:1234567890@localhost:5432/veggie-bulk-order?schema=public"
+        "value": null
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Product {\n  id         Int         @id @default(autoincrement())\n  name       String\n  price      Float\n  stock      Int\n  orderItems OrderItem[]\n\n  @@map(\"products\")\n}\n\nmodel Order {\n  id              Int         @id @default(autoincrement())\n  buyerName       String\n  contactNumber   String\n  deliveryAddress String\n  status          OrderStatus @default(Pending)\n  createdAt       DateTime    @default(now()) @map(\"created_at\")\n  orderItems      OrderItem[]\n\n  @@map(\"orders\")\n}\n\nmodel OrderItem {\n  id        Int     @id @default(autoincrement())\n  orderId   Int\n  productId Int\n  quantity  Int\n  order     Order   @relation(fields: [orderId], references: [id])\n  product   Product @relation(fields: [productId], references: [id])\n\n  @@map(\"order_items\")\n}\n\nmodel User {\n  id           Int      @id @default(autoincrement())\n  name         String\n  email        String   @unique\n  password     String\n  mobileNumber String\n  createdAt    DateTime @default(now()) @map(\"created_at\")\n\n  @@map(\"users\")\n}\n\nenum OrderStatus {\n  Pending\n  Processing\n  Delivered\n  Cancelled\n}\n",
-  "inlineSchemaHash": "f203b79c921101e0a8a184f6885c651368b574a20df005f80be86ad1caa27ceb",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  binaryTargets = [\"native\", \"debian-openssl-3.0.x\"]\n  output        = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Product {\n  id         Int         @id @default(autoincrement())\n  name       String\n  price      Float\n  stock      Int\n  orderItems OrderItem[]\n\n  @@map(\"products\")\n}\n\nmodel Order {\n  id              Int         @id @default(autoincrement())\n  buyerName       String\n  contactNumber   String\n  deliveryAddress String\n  status          OrderStatus @default(Pending)\n  createdAt       DateTime    @default(now()) @map(\"created_at\")\n  orderItems      OrderItem[]\n\n  @@map(\"orders\")\n}\n\nmodel OrderItem {\n  id        Int     @id @default(autoincrement())\n  orderId   Int\n  productId Int\n  quantity  Int\n  order     Order   @relation(fields: [orderId], references: [id])\n  product   Product @relation(fields: [productId], references: [id])\n\n  @@map(\"order_items\")\n}\n\nmodel User {\n  id           Int      @id @default(autoincrement())\n  name         String\n  email        String   @unique\n  password     String\n  mobileNumber String\n  createdAt    DateTime @default(now()) @map(\"created_at\")\n\n  @@map(\"users\")\n}\n\nenum OrderStatus {\n  Pending\n  Processing\n  Delivered\n  Cancelled\n}\n",
+  "inlineSchemaHash": "3145ccc7300147fe7526ae49b8c2cd88c3fa7b57d442d25bc23a86be62e5049e",
   "copyEngine": true
 }
 config.dirname = '/'
