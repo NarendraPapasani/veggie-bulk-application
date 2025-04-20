@@ -40,7 +40,7 @@ async function checkTables() {
     
     // Check products table with proper error handling
     try {
-      const productCount = await prisma.product.count();
+      const productCount = await prisma.Product.count();
       console.log('Products table exists with', productCount, 'records');
     } catch (e) {
       console.error('Error checking products table:', e);
@@ -48,7 +48,7 @@ async function checkTables() {
     
     try {
       // Check users table
-      const userCount = await prisma.user.count();
+      const userCount = await prisma.User.count();
       console.log('Users table exists with', userCount, 'records');
     } catch (e) {
       console.error('Error checking users table:', e);
@@ -56,7 +56,7 @@ async function checkTables() {
     
     try {
       // Check orders table
-      const orderCount = await prisma.order.count();
+      const orderCount = await prisma.Order.count();
       console.log('Orders table exists with', orderCount, 'records');
     } catch (e) {
       console.error('Error checking orders table:', e);
