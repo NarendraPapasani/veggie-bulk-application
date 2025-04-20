@@ -1,9 +1,5 @@
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-3.0.x"]
-  // Remove engineType to use binary mode instead
-  // engineType = "library"
-  output        = "@prisma/client"
+  provider = "prisma-client-js"
 }
 datasource db {
   provider = "postgresql"
