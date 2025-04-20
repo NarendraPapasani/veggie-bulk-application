@@ -24,8 +24,8 @@ const AdminDashboard = () => {
     setLoading(true);
     try {
       const [ordersRes, productsRes] = await Promise.all([
-        axios.get("http://localhost:3000/api/orders"),
-        axios.get("http://localhost:3000/api/products"),
+        axios.get("https://veggie-bulk-application.onrender.com/api/orders"),
+        axios.get("https://veggie-bulk-application.onrender.com/api/products"),
       ]);
       setOrders(ordersRes.data);
       setProducts(productsRes.data);
@@ -37,9 +37,12 @@ const AdminDashboard = () => {
 
   const handleUpdateOrderStatus = async (orderId, newStatus) => {
     try {
-      await axios.put(`http://localhost:3000/api/orders/${orderId}/status`, {
-        status: newStatus,
-      });
+      await axios.put(
+        `https://veggie-bulk-application.onrender.com/api/orders/${orderId}/status`,
+        {
+          status: newStatus,
+        }
+      );
       toast.success("Order status updated");
       fetchData();
     } catch (err) {
@@ -50,7 +53,10 @@ const AdminDashboard = () => {
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/api/products/add", newProduct);
+      await axios.post(
+        "https://veggie-bulk-application.onrender.com/api/products/add",
+        newProduct
+      );
       toast.success("Product added successfully");
       setNewProduct({ name: "", price: "", stock: "" });
       fetchData();
@@ -63,7 +69,7 @@ const AdminDashboard = () => {
     e.preventDefault();
     try {
       await axios.put(
-        `http://localhost:3000/api/products/update/${editingProduct.id}`,
+        `https://veggie-bulk-application.onrender.com/api/products/update/${editingProduct.id}`,
         editingProduct
       );
       toast.success("Product updated successfully");
@@ -78,7 +84,7 @@ const AdminDashboard = () => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
         await axios.delete(
-          `http://localhost:3000/api/products/delete/${productId}`
+          `https://veggie-bulk-application.onrender.com/api/products/delete/${productId}`
         );
         toast.success("Product deleted successfully");
         fetchData();
