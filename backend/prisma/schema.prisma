@@ -1,12 +1,23 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id           Int      @id @default(autoincrement())
+  username     String
+  email        String   @unique
+  password     String
+  mobileNumber String
+  createdAt    DateTime @default(now()) @map("created_at")
 
+  @@map("users")
+}
 
 model Product {
   id        Int          @id @default(autoincrement())
@@ -32,29 +43,19 @@ model Order {
 
 model OrderItem {
   id        Int     @id @default(autoincrement())
-  orderId   Int
-  productId Int
   quantity  Int
-  order     Order   @relation(fields: [orderId], references: [id])
   product   Product @relation(fields: [productId], references: [id])
+  productId Int
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   Int
 
   @@map("order_items")
-}
-
-model User{
-  id        Int     @id @default(autoincrement())
-  name      String
-  email     String  @unique
-  password  String
-  mobileNumber String
-  createdAt DateTime @default(now()) @map("created_at")
-
-  @@map("users")
 }
 
 enum OrderStatus {
   Pending
   Processing
+  Shipped
   Delivered
   Cancelled
 }

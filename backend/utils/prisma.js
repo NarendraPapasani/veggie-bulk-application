@@ -1,32 +1,23 @@
 const { PrismaClient } = require("@prisma/client");
 
-// Log database connection string (but hide password)
+// Log the database URL (with password hidden)
 const dbUrl = process.env.DATABASE_URL || "";
-console.log(
-  "Connecting to database:",
-  dbUrl.replace(/postgres:\/\/[^:]+:[^@]+@/, "postgres://<user>:<password>@")
-);
+console.log("Database URL:", dbUrl.replace(/:([^:@]+)@/, ":****@"));
 
-// Initialize Prisma Client
+// Initialize Prisma Client with logging in development
 const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: process.env.DATABASE_URL,
-    },
-  },
+  log:
+    process.env.NODE_ENV === "development"
+      ? ["query", "info", "warn", "error"]
+      : ["error"],
 });
 
-// Test the database connection
-async function testConnection() {
-  try {
-    await prisma.$connect();
-    console.log("Database connection successful");
-  } catch (error) {
-    console.error("Database connection failed:", error);
+// Add an event listener for connection issues
+prisma.$on("query", (e) => {
+  if (process.env.NODE_ENV === "development") {
+    console.log(`Query: ${e.query}`);
+    console.log(`Duration: ${e.duration}ms`);
   }
-}
-
-// Run the test when this file is imported
-testConnection();
+});
 
 module.exports = prisma;
