@@ -8,7 +8,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-here";
 const signUp = async (req, res) => {
   const { username, password, mobileNumber, email } = req.body;
   try {
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await prisma.User.findUnique({
       where: { email },
     });
 
@@ -20,7 +20,7 @@ const signUp = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const userData = await prisma.user.create({
+    const userData = await prisma.User.create({
       data: {
         name: username,
         email,
@@ -46,7 +46,7 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.User.findUnique({
       where: {
         email,
       },

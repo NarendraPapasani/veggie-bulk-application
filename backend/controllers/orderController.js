@@ -23,7 +23,7 @@ const getAllOrders = async (req, res) => {
 
 const getOrderById = async (req, res) => {
   try {
-    const order = await prisma.order.findUnique({
+    const order = await prisma.Order.findUnique({
       where: { id: parseInt(req.params.id) },
       include: {
         orderItems: {
@@ -49,7 +49,7 @@ const createOrder = async (req, res) => {
     // Start a transaction
     const order = await prisma.$transaction(async (prisma) => {
       // Create the order
-      const newOrder = await prisma.order.create({
+      const newOrder = await prisma.Order.create({
         data: {
           buyerName,
           contactNumber,
@@ -74,7 +74,7 @@ const createOrder = async (req, res) => {
 
       // Update product stock
       for (const item of items) {
-        await prisma.product.update({
+        await prisma.Product.update({
           where: { id: item.productId },
           data: {
             stock: {
@@ -96,7 +96,7 @@ const createOrder = async (req, res) => {
 const updateOrder = async (req, res) => {
   try {
     const { status } = req.body;
-    const order = await prisma.order.update({
+    const order = await prisma.Order.update({
       where: { id: parseInt(req.params.id) },
       data: { status },
     });

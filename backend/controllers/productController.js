@@ -1,7 +1,7 @@
 const prisma = require("../utils/prisma");
 const getAllProducts = async (req, res) => {
   try {
-    const products = await prisma.product.findMany();
+    const products = await prisma.Product.findMany();
     res.status(200).json(products);
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -12,7 +12,7 @@ const getAllProducts = async (req, res) => {
 const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await prisma.product.findUnique({
+    const product = await prisma.Product.findUnique({
       where: { id: parseInt(id) },
     });
     if (!product) {
@@ -28,7 +28,7 @@ const getProductById = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
     const { name, price, stock } = req.body;
-    const newProduct = await prisma.product.create({
+    const newProduct = await prisma.Product.create({
       data: { name, price: parseFloat(price), stock: parseInt(stock) },
     });
     return res.status(201).json(newProduct);
@@ -42,7 +42,7 @@ const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, price, stock } = req.body;
-    const updatedProduct = await prisma.product.update({
+    const updatedProduct = await prisma.Product.update({
       where: { id: parseInt(id) },
       data: { name, price: parseFloat(price), stock: parseInt(stock) },
     });
@@ -56,7 +56,7 @@ const updateProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    await prisma.product.delete({
+    await prisma.Product.delete({
       where: { id: parseInt(id) },
     });
     return res.status(204).send();
