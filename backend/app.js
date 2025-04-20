@@ -10,7 +10,7 @@ const app = express();
 // Get the allowed origin from environment variable or use development default
 const allowedOrigins =
   process.env.NODE_ENV === "production"
-    ? [process.env.FRONTEND_URL, "https://veggie-bulk-application.netlify.app"]
+    ? [process.env.FRONTEND_URL, "https://grand-cendol-1d0537.netlify.app/"] // Add your Netlify URL here
     : ["http://localhost:5173"];
 
 app.use(
@@ -35,7 +35,6 @@ app.use(
 app.use(express.json());
 app.use(cookieParser()); // Add cookie parser middleware
 
-// Import routes that use Prisma
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
