@@ -262,8 +262,111 @@ const AuthPage = () => {
             )}
           </div>
 
-          {/* Rest of your signup form remains unchanged */}
-          {/* ... */}
+          {/* Email field */}
+          <div>
+            <label className="block text-gray-700 mb-1">Email</label>
+            <div className="relative">
+              <div className="absolute left-3 top-3 text-gray-400">
+                <FaEnvelope />
+              </div>
+              <input
+                type="email"
+                {...registerSignup("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Invalid email address",
+                  },
+                })}
+                className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="your@email.com"
+              />
+            </div>
+            {signupErrors.email && (
+              <p className="text-red-500 text-xs mt-1">
+                {signupErrors.email.message}
+              </p>
+            )}
+          </div>
+
+          {/* Mobile number field */}
+          <div>
+            <label className="block text-gray-700 mb-1">Mobile Number</label>
+            <div className="relative">
+              <div className="absolute left-3 top-3 text-gray-400">
+                <FaPhone />
+              </div>
+              <input
+                type="tel"
+                {...registerSignup("mobileNumber", {
+                  required: "Mobile number is required",
+                  pattern: {
+                    value: /^[0-9]{10}$/,
+                    message: "Please enter a valid 10-digit mobile number",
+                  },
+                })}
+                className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="1234567890"
+              />
+            </div>
+            {signupErrors.mobileNumber && (
+              <p className="text-red-500 text-xs mt-1">
+                {signupErrors.mobileNumber.message}
+              </p>
+            )}
+          </div>
+
+          {/* Password field */}
+          <div>
+            <label className="block text-gray-700 mb-1">Password</label>
+            <div className="relative">
+              <div className="absolute left-3 top-3 text-gray-400">
+                <FaLock />
+              </div>
+              <input
+                type="password"
+                {...registerSignup("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                })}
+                className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="••••••••"
+              />
+            </div>
+            {signupErrors.password && (
+              <p className="text-red-500 text-xs mt-1">
+                {signupErrors.password.message}
+              </p>
+            )}
+          </div>
+
+          {/* Confirm Password field */}
+          <div>
+            <label className="block text-gray-700 mb-1">Confirm Password</label>
+            <div className="relative">
+              <div className="absolute left-3 top-3 text-gray-400">
+                <FaLock />
+              </div>
+              <input
+                type="password"
+                {...registerSignup("confirmPassword", {
+                  required: "Please confirm your password",
+                  validate: (value) =>
+                    value === password || "Passwords do not match",
+                })}
+                className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="••••••••"
+              />
+            </div>
+            {signupErrors.confirmPassword && (
+              <p className="text-red-500 text-xs mt-1">
+                {signupErrors.confirmPassword.message}
+              </p>
+            )}
+          </div>
 
           <button
             type="submit"

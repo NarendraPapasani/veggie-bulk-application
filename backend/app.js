@@ -7,25 +7,19 @@ const authRoutes = require("./routes/auth.routes.js");
 
 const app = express();
 
-// Get the allowed origin from environment variable or use development default
+// Define allowed origins based on environment
 const allowedOrigins =
   process.env.NODE_ENV === "production"
-    ? [process.env.FRONTEND_URL, "https://grand-cendol-1d0537.netlify.app/"] // Add your Netlify URL here
+    ? [
+        "https://grand-cendol-1d0537.netlify.app", // Without trailing slash
+        "https://grand-cendol-1d0537.netlify.app/", // With trailing slash (just to be safe)
+      ]
     : ["http://localhost:5173"];
 
+// Simplified and more permissive CORS configuration
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps, curl, etc.)
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg =
-          "The CORS policy for this site does not allow access from the specified origin.";
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
+    origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -44,7 +38,7 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
