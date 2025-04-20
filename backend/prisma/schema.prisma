@@ -3,7 +3,7 @@ generator client {
   binaryTargets = ["native", "debian-openssl-3.0.x"]
   // Remove engineType to use binary mode instead
   // engineType = "library"
-  output        = "../generated/prisma"
+  output        = "@prisma/client"
 }
 datasource db {
   provider = "postgresql"
