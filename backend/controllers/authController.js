@@ -20,9 +20,10 @@ const signUp = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Fixed: changed 'name' to 'username' to match your schema
     const userData = await prisma.User.create({
       data: {
-        name: username,
+        username, // Changed from name to username according to your schema
         email,
         password: hashedPassword,
         mobileNumber,
@@ -62,9 +63,9 @@ const login = async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    // Generate JWT token
+    // Generate JWT token - using username instead of name
     const token = jwt.sign(
-      { userId: user.id, email: user.email, name: user.name },
+      { userId: user.id, email: user.email, username: user.username },
       JWT_SECRET,
       { expiresIn: "24h" }
     );

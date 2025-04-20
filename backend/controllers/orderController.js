@@ -2,7 +2,7 @@ const prisma = require("../utils/prisma");
 
 const getAllOrders = async (req, res) => {
   try {
-    const allOrders = await prisma.order.findMany({
+    const allOrders = await prisma.Order.findMany({
       include: {
         orderItems: {
           include: {
